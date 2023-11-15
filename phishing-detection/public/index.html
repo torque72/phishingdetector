@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phishing Detection Homepage</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f7f7f7;
+  }
+
+  .container {
+    width: 80%;
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+
+  label {
+    font-size: 18px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Phishing Email Detection</h1>
+  <p>Submit an email to check if it's phishing or not.</p>
+  
+  <!-- Email submission form -->
+  <form id="phishingForm">
+    <label for="emailContent">Paste the email content here:</label>
+    <textarea id="emailContent" name="emailContent" rows="10" placeholder="Paste email content here..."></textarea>
+    
+    <input type="submit" value="Check Email">
+  </form>
+  
+  <!-- Area to display results -->
+  <div id="result"></div>
+</div>
+
+<script>
+  // Add your JavaScript here
+  document.getElementById('phishingForm').onsubmit = function(event) {
+    event.preventDefault();
+    
+    // Get the email content from the textarea
+    var emailContent = document.getElementById('emailContent').value;
+    
+    // Here you would typically send the content to your server for analysis
+    // For now, we'll just log it to the console
+    console.log(emailContent);
+
+    // Display a message to the user
+    document.getElementById('result').textContent = 'Analyzing email...';
+    
+    // After analysis is done, you would update the result area
+    // For example:
+    // document.getElementById('result').textContent = 'This email is SAFE';
+    // or
+    // document.getElementById('result').textContent = 'This email is PHISHING';
+  };
+</script>
+
+</body>
+</html>
