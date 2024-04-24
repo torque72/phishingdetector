@@ -4,68 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Phishing Detection Homepage</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="style.css">
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f7f7f7;
-  }
-
-  .container {
-    width: 80%;
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-  }
-
-  input[type="text"], textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-
-  input[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  input[type="submit"]:hover {
-    background-color: #45a049;
-  }
-
-  label {
-    font-size: 18px;
-  }
+  /* Additional styles were already provided inline */
 </style>
 </head>
 <body>
 
 <div class="container">
   <h1>Phishing Email Detection</h1>
-  <p>Submit an email to check if it's phishing or not.</p>
+  <p>Submit an email to check if it's phishing or not. You can paste the email content or upload an image/PDF.</p>
   
   <!-- Email submission form -->
   <form id="phishingForm">
     <label for="emailContent">Paste the email content here:</label>
     <textarea id="emailContent" name="emailContent" rows="10" placeholder="Paste email content here..."></textarea>
-    
+    <label for="emailFile">Or upload an email image/PDF:</label>
+    <input type="file" id="emailFile" name="emailFile" accept="image/*,application/pdf">
     <input type="submit" value="Check Email">
   </form>
   
@@ -74,26 +29,34 @@
 </div>
 
 <script>
-  // Add your JavaScript here
-  document.getElementById('phishingForm').onsubmit = function(event) {
+ document.getElementById('phishingForm').addEventListener('submit', function(event) {
     event.preventDefault();
+    const emailContent = document.getElementById('emailContent').value;
+    const fileInput = document.getElementById('emailFile');
+    const formData = new FormData();
     
-    // Get the email content from the textarea
-    var emailContent = document.getElementById('emailContent').value;
-    
-    // Here you would typically send the content to your server for analysis
-    // For now, we'll just log it to the console
-    console.log(emailContent);
+    if (fileInput.files.length > 0) {
+        formData.append("file", fileInput.files[0]);
+    } else {
+        formData.append("emailContent", emailContent);
+    }
 
-    // Display a message to the user
-    document.getElementById('result').textContent = 'Analyzing email...';
-    
-    // After analysis is done, you would update the result area
-    // For example:
-    // document.getElementById('result').textContent = 'This email is SAFE';
-    // or
-    // document.getElementById('result').textContent = 'This email is PHISHING';
-  };
+    fetch('/analyze', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('result').textContent = 'Email is ' + data.prediction;
+        document.getElementById('phishingForm').reset(); // Reset the form to clear the inputs
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('result').textContent = 'An error occurred during analysis.';
+        document.getElementById('phishingForm').reset(); // Reset the form in case of an error as well
+    });
+});
+
 </script>
 
 </body>
