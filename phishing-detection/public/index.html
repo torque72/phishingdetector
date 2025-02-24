@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phishing Detection Homepage</title>
-<link rel="stylesheet" href="style.css">
-<style>
-  /* Additional styles were already provided inline */
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phishing Detection Homepage</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -15,31 +12,45 @@
   <h1>Phishing Email Detection</h1>
   <p>Submit an email to check if it's phishing or not. You can paste the email content or upload an image/PDF.</p>
   
-  <!-- Email submission form -->
   <form id="phishingForm">
     <label for="emailContent">Paste the email content here:</label>
     <textarea id="emailContent" name="emailContent" rows="10" placeholder="Paste email content here..."></textarea>
+    
     <label for="emailFile">Or upload an email image/PDF:</label>
     <input type="file" id="emailFile" name="emailFile" accept="image/*,application/pdf">
+    
     <input type="submit" value="Check Email">
   </form>
   
-  <!-- Area to display results -->
-  <div id="result"></div>
+  <!-- Loading Indicator -->
+  <p id="loadingMessage" style="display: none;">Analyzing...</p>
+
+  <!-- Results Section -->
+  <div id="result" class="results">
+    <div id="textResult" class="result-item"></div>
+    <div id="urlResult" class="result-item"></div>
+    <div id="finalResult" class="result-item final-result"></div>
+  </div>
 </div>
 
 <script>
- document.getElementById('phishingForm').addEventListener('submit', function(event) {
+document.getElementById('phishingForm').addEventListener('submit', function(event) {
     event.preventDefault();
+
     const emailContent = document.getElementById('emailContent').value;
     const fileInput = document.getElementById('emailFile');
     const formData = new FormData();
-    
+
     if (fileInput.files.length > 0) {
         formData.append("file", fileInput.files[0]);
-    } else {
+    } else if (emailContent.trim() !== "") {
         formData.append("emailContent", emailContent);
+    } else {
+        alert("Please enter email content or upload a file.");
+        return;
     }
+
+    document.getElementById('loadingMessage').style.display = 'block'; // Show loading message
 
     fetch('/analyze', {
         method: 'POST',
@@ -47,16 +58,27 @@
     })
     .then(response => response.json())
     .then(data => {
-        document.getElementById('result').textContent = 'Email is ' + data.prediction;
-        document.getElementById('phishingForm').reset(); // Reset the form to clear the inputs
+        console.log("API Response:", data); // Debugging log
+
+        document.getElementById('loadingMessage').style.display = 'none'; // Hide loading message
+
+        if (!data.text_prediction || !data.url_prediction || !data.final_prediction) {
+            throw new Error("Incomplete response from server.");
+        }
+
+        document.getElementById('textResult').textContent = 'Email text prediction: ' + data.text_prediction;
+        document.getElementById('urlResult').textContent = 'URL prediction: ' + data.url_prediction;
+        document.getElementById('finalResult').textContent = 'Overall Prediction: ' + data.final_prediction;
+
+        document.getElementById('phishingForm').reset();
     })
     .catch(error => {
         console.error('Error:', error);
+        document.getElementById('loadingMessage').style.display = 'none';
         document.getElementById('result').textContent = 'An error occurred during analysis.';
-        document.getElementById('phishingForm').reset(); // Reset the form in case of an error as well
+        document.getElementById('phishingForm').reset();
     });
 });
-
 </script>
 
 </body>
