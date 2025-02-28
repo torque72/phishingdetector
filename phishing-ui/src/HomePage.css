@@ -1,0 +1,179 @@
+/* General container styling */
+.homepage-container {
+  text-align: center;
+  padding: 20px;
+}
+
+/* Title Styling */
+.title {
+  color: #00FFFF;
+  text-shadow: 0 0 10px #00FFFF;
+  font-weight: bold;
+}
+
+/* "How It Works" Button */
+.how-it-works-button {
+  margin-top: 15px;
+  border: 2px solid #00FFFF;
+  color: #00FFFF !important;
+  font-weight: bold;
+  padding: 10px 20px;
+  transition: 0.3s;
+}
+
+.how-it-works-button:hover {
+  background-color: #00FFFF !important;
+  color: #050A30 !important;
+  box-shadow: 0 0 15px #00FFFF;
+}
+
+/* Toggle Switch Styling */
+.toggle-switch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  color: #ffffff !important;
+  font-size: 1rem;
+}
+
+/* Fix switch positioning */
+.MuiFormControlLabel-root {
+  margin: 15px 0 !important;
+}
+
+/* Ensure the toggle track and thumb match theme */
+.MuiSwitch-track {
+  background-color: #00FFFF !important;
+}
+
+.MuiSwitch-thumb {
+  background-color: #00FFFF !important;
+}
+
+/* Input Container */
+.input-paper {
+  padding: 30px;
+  margin-top: 30px;
+  background: #000000 !important;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  border: 1px solid #00FFFF;
+}
+
+/* Text Fields */
+.input-text .MuiInputBase-root {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-radius: 8px;
+}
+
+/* Restored Neon Border Around Text Fields */
+.input-text .MuiOutlinedInput-root {
+  border-radius: 8px;
+  border: 1px solid #00FFFF !important;
+}
+
+/* Default Border */
+.input-text .MuiOutlinedInput-notchedOutline {
+  border-color: #00FFFF !important;
+  transition: 0.3s ease-in-out;
+}
+
+/* Glowing Effect on Hover */
+.input-text:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #88FFFF !important;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Glowing Effect on Focus */
+.input-text .Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #00FFFF !important;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+}
+
+/* Placeholder Text */
+.input-text .MuiInputBase-input::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Dropzone (File Upload) */
+.dropzone {
+  background-color: #000000 !important;
+  border: 1px solid #00FFFF !important;
+  color: #ffffff !important;
+  border-radius: 10px;
+  padding: 20px;
+  transition: 0.3s;
+}
+
+.dropzone:hover {
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+/* Upload Icon */
+.upload-icon {
+  color: #00FFFF !important;
+  font-size: 30px;
+}
+
+/* File Selected Text */
+.file-selected {
+  color: #ffffff !important;
+}
+
+/* Analyze Button */
+.analyze-button {
+  margin-top: 20px !important;
+  padding: 12px 20px !important;
+  background-color: #00FFFF !important;
+  color: #050A30 !important;
+  font-weight: bold;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.analyze-button:hover {
+  background-color: #88FFFF !important;
+}
+
+/* Results Section */
+.result-paper {
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 12px;
+  text-align: center;
+  background: #000000 !important;
+  border: 2px solid #00FFFF;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.result-title {
+  color: #00FFFF;
+  font-weight: bold;
+}
+
+.result-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+}
+
+.final-result {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #00FFFF;
+}
+
+/* Highlight phishing results in red */
+.result-paper.phishing {
+  background-color: #330000 !important;
+  border-color: red !important;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+/* Highlight safe results in green */
+.result-paper.safe {
+  background-color: #003333 !important;
+  border-color: green !important;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+}

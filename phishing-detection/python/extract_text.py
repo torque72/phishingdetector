@@ -4,9 +4,6 @@ from PIL import Image
 import pytesseract
 import PyPDF2
 
-# Ensure tesseract is in PATH, comment out the line below if not necessary
-# pytesseract.pytesseract.tesseract_cmd = r'<full_path_to_your_tesseract_executable>'
-
 def extract_text_from_image(image_path):
     """ Extract text from an image file using OCR. """
     try:
@@ -36,7 +33,7 @@ def main():
         sys.exit(1)
 
     file_path = sys.argv[1]
-    print("Processing file:", file_path)  # Debugging output
+    print("Processing file:", file_path)
 
     # Ensure the file exists
     if not os.path.exists(file_path):
@@ -44,7 +41,7 @@ def main():
         sys.exit(1)
     
     file_extension = os.path.splitext(file_path)[1].lower()
-    print("Detected file extension:", file_extension)  # Debugging output
+    print("Detected file extension:", file_extension)
 
     text = None
     if file_extension in ['.jpg', '.jpeg', '.png', '.bmp', '.tiff']:

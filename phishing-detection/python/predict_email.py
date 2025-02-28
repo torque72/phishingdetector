@@ -25,10 +25,9 @@ except Exception as e:
 url_pattern = re.compile(r'https?://\S+|www\.\S+')
 
 def preprocess_email_text(text):
-    urls = url_pattern.findall(text)
     text = url_pattern.sub(" linkurl ", text)
     text = re.sub(r'\s+', ' ', text).strip()
-    return text.lower(), urls
+    return text.lower()
 
 def preprocess_url(url):
     return [
@@ -40,41 +39,60 @@ def preprocess_url(url):
         sum(s in url for s in ['login', 'verify', 'account', 'secure', 'banking', 'confirm'])
     ]
 
-def predict(email_content):
+def predict_email(email_content):
     try:
-        email_content, urls = preprocess_email_text(email_content)
+        email_content = preprocess_email_text(email_content)
         email_vector = text_vectorizer.transform([email_content])
         text_prediction = text_model.predict(email_vector)[0]
 
-        url_prediction = False
-        if urls:
-            url_features = [preprocess_url(url) for url in urls]
-            df_url_features = pd.DataFrame(url_features, columns=['has_ip', 'length', 'subdomains', 'https', 'special_chars', 'suspicious_strings'])
-            url_features_scaled = url_scaler.transform(df_url_features)
-            url_predictions = url_model.predict(url_features_scaled)
-            url_prediction = any(pred == 1 for pred in url_predictions)
-
         response = {
             "text_prediction": "Phishing" if text_prediction == 1 else "Safe",
-            "url_prediction": "Phishing" if url_prediction else "Safe",
-            "final_prediction": "Phishing" if text_prediction == 1 or url_prediction else "Safe"
+            "url_prediction": None,
+            "final_prediction": "Phishing" if text_prediction == 1 else "Safe"
         }
 
         print(json.dumps(response))
         sys.exit(0)
     except Exception as e:
-        print(json.dumps({"error": f"Prediction failed: {str(e)}"}))
+        print(json.dumps({"error": f"Email prediction failed: {str(e)}"}))
+        sys.exit(1)
+
+def predict_url(url):
+    try:
+        url_features = preprocess_url(url)
+        df_url_features = pd.DataFrame([url_features], columns=['has_ip', 'length', 'subdomains', 'https', 'special_chars', 'suspicious_strings'])
+        url_features_scaled = url_scaler.transform(df_url_features)
+        url_prediction = url_model.predict(url_features_scaled)[0]
+
+        response = {
+            "text_prediction": None,
+            "url_prediction": "Phishing" if url_prediction == 1 else "Safe",
+            "final_prediction": "Phishing" if url_prediction == 1 else "Safe"
+        }
+
+        print(json.dumps(response))
+        sys.exit(0)
+    except Exception as e:
+        print(json.dumps({"error": f"URL prediction failed: {str(e)}"}))
         sys.exit(1)
 
 if __name__ == "__main__":
     try:
-        if len(sys.argv) > 1 and os.path.isfile(sys.argv[1]):
-            with open(sys.argv[1], 'r') as file:
-                email_content = file.read()
-        else:
-            email_content = sys.argv[1] if len(sys.argv) > 1 else ""
+        if len(sys.argv) > 2 and sys.argv[1] == "--mode":
+            mode = sys.argv[2]
+            input_data = sys.argv[3] if len(sys.argv) > 3 else ""
 
-        predict(email_content)
+            if mode == "email":
+                predict_email(input_data)
+            elif mode == "url":
+                predict_url(input_data)
+            else:
+                print(json.dumps({"error": "Invalid mode specified"}))
+                sys.exit(1)
+        else:
+            print(json.dumps({"error": "Mode not specified"}))
+            sys.exit(1)
+
     except Exception as e:
         print(json.dumps({"error": f"Script execution error: {str(e)}"}))
         sys.exit(1)

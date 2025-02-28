@@ -1,0 +1,117 @@
+.how-it-works-container {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+}
+
+/* Title */
+.title {
+  color: #00FFFF;
+  font-weight: bold;
+  text-shadow: 0 0 15px #00FFFF;
+}
+
+/* Subtitle */
+.subtitle {
+  color: #88FFFF;
+  margin-bottom: 30px;
+  font-weight: 400;
+}
+
+/* Steps Section */
+.steps-section {
+  margin-top: 40px;
+}
+
+/* Step Cards */
+.dark-card {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #00FFFF;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+/* Step Titles */
+.step-title {
+  font-weight: bold;
+  color: #00FFFF;
+}
+
+/* Section Titles */
+.section-title {
+  color: #00FFFF;
+  margin-top: 50px;
+  font-weight: bold;
+}
+
+/* Model Table */
+.model-table {
+  margin-top: 20px;
+  background: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+  border-radius: 12px;
+}
+
+.model-table thead {
+  background-color: rgba(0, 255, 255, 0.2) !important;
+}
+
+.model-table thead th {
+  color: #00FFFF !important; /* Table Headers Stay Neon Blue */
+  font-weight: bold;
+}
+
+.model-table tbody tr {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important; /* Table Text is Now White */
+}
+
+.model-table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.model-table tbody td {
+  color: #ffffff !important; /* Ensures Text Inside Table Cells is White */
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2) !important;
+}
+
+/* Feature Analysis */
+.feature-card {
+  padding: 20px;
+  border-radius: 10px;
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #00FFFF;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+}
+
+.feature-list li {
+  padding: 10px 0;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Back Button */
+.back-button {
+  margin-top: 40px;
+  border: 2px solid #00FFFF;
+  color: #00FFFF !important;
+  padding: 12px 30px;
+  transition: 0.3s;
+}
+
+.back-button:hover {
+  background-color: #00FFFF !important;
+  color: #050A30 !important;
+  box-shadow: 0 0 15px #00FFFF;
+}

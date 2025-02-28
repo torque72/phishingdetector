@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const { spawn } = require('child_process');
 const multer = require('multer');
 const path = require('path');
@@ -7,7 +8,9 @@ const os = require('os');
 const { v4: uuidv4 } = require('uuid');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
+
+app.use(cors());
 
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
@@ -28,6 +31,29 @@ app.post('/analyze', upload.single('file'), (req, res) => {
     let tempTextFilePath = null;
 
     try {
+        if (req.body.url) {
+            console.log('Processing URL input:', req.body.url);
+            const pythonProcess = spawn('python3', ['./python/predict_email.py', '--mode', 'url', req.body.url]);
+
+            pythonProcess.stdout.on('data', (data) => {
+                try {
+                    const prediction = JSON.parse(data.toString().trim());
+                    console.log('Prediction output:', prediction);
+                    res.json(prediction);
+                } catch (err) {
+                    console.error('Error parsing Python response:', err);
+                    res.status(500).json({ status: 'error', message: 'Invalid JSON response from Python' });
+                }
+            });
+
+            pythonProcess.stderr.on('data', (data) => {
+                console.error(`Prediction error: ${data}`);
+                res.status(500).json({ status: 'error', message: 'Prediction failed' });
+            });
+
+            return;
+        }
+
         if (req.file) {
             console.log('Processing uploaded file:', req.file.path);
             const extractProcess = spawn('python3', ['./python/extract_text.py', req.file.path]);
@@ -38,7 +64,7 @@ app.post('/analyze', upload.single('file'), (req, res) => {
 
                 tempTextFilePath = path.join(os.tmpdir(), uuidv4() + '.txt');
                 fs.writeFileSync(tempTextFilePath, extractedText);
-                runPrediction(tempTextFilePath, res);
+                runPrediction(tempTextFilePath, res, 'email');
             });
 
             extractProcess.stderr.on('data', (data) => {
@@ -51,7 +77,7 @@ app.post('/analyze', upload.single('file'), (req, res) => {
 
             tempTextFilePath = path.join(os.tmpdir(), uuidv4() + '.txt');
             fs.writeFileSync(tempTextFilePath, req.body.emailContent);
-            runPrediction(tempTextFilePath, res);
+            runPrediction(tempTextFilePath, res, 'email');
         } else {
             return res.status(400).json({ status: 'error', message: 'No input provided' });
         }
@@ -61,18 +87,13 @@ app.post('/analyze', upload.single('file'), (req, res) => {
     }
 });
 
-function runPrediction(tempTextFilePath, res) {
-    const pythonProcess = spawn('python3', ['./python/predict_email.py', tempTextFilePath]);
+function runPrediction(tempTextFilePath, res, mode) {
+    const pythonProcess = spawn('python3', ['./python/predict_email.py', '--mode', mode, tempTextFilePath]);
 
     pythonProcess.stdout.on('data', (data) => {
         try {
             const prediction = JSON.parse(data.toString().trim());
             console.log('Prediction output:', prediction);
-
-            if (!prediction.text_prediction || !prediction.url_prediction || !prediction.final_prediction) {
-                return res.status(500).json({ status: 'error', message: 'Invalid prediction response' });
-            }
-
             res.json(prediction);
         } catch (err) {
             console.error('Error parsing Python response:', err);

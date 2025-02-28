@@ -1,0 +1,93 @@
+body {
+  background-color: #050A30;
+  color: #00FFFF;
+  font-family: 'Arial', sans-serif;
+}
+
+.phishing-container {
+  text-align: center;
+  margin-top: 40px;
+  min-height: 100vh;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.title {
+  color: #00FFFF;
+  text-shadow: 0 0 10px #00FFFF;
+}
+
+.subtitle {
+  color: #88FFFF;
+}
+
+.input-paper {
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #101F40;
+  border: 1px solid #00FFFF;
+  border-radius: 10px;
+}
+
+.input-text {
+  background-color: #1A1A1A;
+  color: #00FFFF !important;
+  border: 1px solid #00FFFF;
+}
+
+.dropzone {
+  border: 2px dashed #00FFFF;
+  padding: 20px;
+  cursor: pointer;
+  background-color: #081024;
+  border-radius: 10px;
+  color: #00FFFF;
+  transition: 0.3s;
+}
+
+.dropzone:hover {
+  background-color: #0A1A3A;
+  box-shadow: 0 0 10px #00FFFF;
+}
+
+.upload-icon {
+  font-size: 40px;
+}
+
+.file-selected {
+  color: #88FFFF;
+}
+
+.analyze-button {
+  margin-top: 20px;
+  background-color: #00FFFF !important;
+  color: #050A30 !important;
+  font-weight: bold;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.analyze-button:hover {
+  background-color: #88FFFF !important;
+}
+
+.result-paper {
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.result-paper.phishing {
+  background-color: #330000;
+  border: 2px solid red;
+}
+
+.result-paper.safe {
+  background-color: #003333;
+  border: 2px solid green;
+}
+
+.final-result {
+  font-size: 1.5em;
+  font-weight: bold;
+}
