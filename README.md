@@ -58,6 +58,7 @@ npm start  # Runs React frontend at localhost:3000
 cd ../phishing-detection
 npm install
 node server.js  # Runs backend at localhost:3001
+```
 
 ## Machine Learning Models
 
@@ -105,4 +106,3 @@ This project is licensed under the **MIT License**.
 
 ## Contact
 - **Developer:** Ben Sadler
-```
