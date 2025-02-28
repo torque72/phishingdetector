@@ -83,7 +83,7 @@ node server.js  # Runs backend at localhost:3001
 
 ## Features & Highlights
 
-- **Modern UI** – Responsive dark mode interface
+- **Modern UI** – Responsive interface
 - **Live Machine Learning Predictions** – Real-time phishing detection
 - **File Upload Support** – OCR and PDF parsing for email attachments
 - **Optimized Performance** – 97% accuracy in email classification
