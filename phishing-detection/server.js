@@ -10,15 +10,10 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors());
-
-const cors = require('cors');
-const fs = require('fs');
-
 fs.mkdirSync('uploads', { recursive: true }); // ensure folder exists
 
 app.use(cors({
-  origin: ['https://aiphishingdetector.netlify.app'], // your Netlify site URL
+  origin: ['https://aiphishingdetector.netlify.app'],
   methods: ['GET','POST','OPTIONS'],
   allowedHeaders: ['Content-Type','Authorization'],
 }));
