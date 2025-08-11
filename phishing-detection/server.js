@@ -12,6 +12,18 @@ const port = process.env.PORT || 3001;
 
 app.use(cors());
 
+const cors = require('cors');
+const fs = require('fs');
+
+fs.mkdirSync('uploads', { recursive: true }); // ensure folder exists
+
+app.use(cors({
+  origin: ['https://aiphishingdetector.netlify.app'], // your Netlify site URL
+  methods: ['GET','POST','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
+}));
+
+
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

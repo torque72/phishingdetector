@@ -34,6 +34,9 @@ const HomePage = () => {
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
 
   const navigate = useNavigate();
+  // use env var in prod, fallback to localhost for local dev
+  const API_BASE =
+  process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
   // Typing animation for placeholder text
   useEffect(() => {
@@ -80,7 +83,7 @@ const HomePage = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3001/analyze", formData);
+      const response = await axios.post(`${API_BASE}/analyze`, formData);
       setResult(response.data);
     } catch (err) {
       setError("Error analyzing input. Please try again.");
