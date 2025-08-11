@@ -58,6 +58,7 @@ npm start  # Runs React frontend at localhost:3000
 cd ../phishing-detection
 npm install
 node server.js  # Runs backend at localhost:3001
+```
 
 ## Machine Learning Models
 
@@ -82,7 +83,7 @@ node server.js  # Runs backend at localhost:3001
 
 ## Features & Highlights
 
-- **Modern UI** – Responsive dark mode interface
+- **Modern UI** – Responsive interface
 - **Live Machine Learning Predictions** – Real-time phishing detection
 - **File Upload Support** – OCR and PDF parsing for email attachments
 - **Optimized Performance** – 97% accuracy in email classification
@@ -105,4 +106,3 @@ This project is licensed under the **MIT License**.
 
 ## Contact
 - **Developer:** Ben Sadler
-```
