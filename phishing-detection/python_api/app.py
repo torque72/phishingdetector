@@ -9,19 +9,19 @@ import json
 import joblib
 import os
 
-# ------------------------------------------------------------
-# Paths (absolute, so it works no matter the working directory)
-# ------------------------------------------------------------
-# BASE_DIR = .../phishing-detection
+from pathlib import Path
+
+# .../phishing-detection
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Artifacts for EMAIL model
-VEC_PATH   = BASE_DIR / "python" / "vectorizer.joblib"
-MODEL_PATH = BASE_DIR / "python" / "phishing_model.joblib"   # or "best_phishing_model.joblib"
+# Artifacts now live in: phishing-detection/python_api/python
+ARTIFACT_DIR = BASE_DIR / "python_api" / "python"
+VEC_PATH     = ARTIFACT_DIR / "vectorizer.joblib"
+MODEL_PATH   = ARTIFACT_DIR / "phishing_model.joblib"  # or best_phishing_model.joblib
 
-# Existing helper scripts you already have
-EXTRACT_SCRIPT = BASE_DIR / "python" / "extract_text.py"     # CLI: python extract_text.py <filepath>
-PREDICT_SCRIPT = BASE_DIR / "python" / "predict_email.py"    # CLI: python predict_email.py --mode email|url <arg>
+# If your helper scripts ALSO moved into python_api/python, use these:
+EXTRACT_SCRIPT = ARTIFACT_DIR / "extract_text.py"
+PREDICT_SCRIPT = ARTIFACT_DIR / "predict_email.py"
 
 # ------------------------------------------------------------
 # Load email model/vectorizer ONCE (fast & memory-friendly)
